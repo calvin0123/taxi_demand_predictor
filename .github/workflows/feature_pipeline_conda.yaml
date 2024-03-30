@@ -18,12 +18,12 @@ jobs:
       uses: actions/setup-python@v3
       with:
         python-version: '3.9'
-        architerture: 'x64'
+        architecture: 'x64'
 
     - name: Create Conda Enviornmen
-      run: conda env create -f enviornment.yml
+      run: conda env create -f environment.yml
 
-    - name: Activate Conda enviornment
+    - name: Activate Conda environment
       run: source activate ml
       
 
