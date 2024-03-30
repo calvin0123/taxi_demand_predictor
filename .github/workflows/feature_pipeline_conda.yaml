@@ -1,0 +1,34 @@
+name: hourly-taxi-demand-feature-pipeline
+
+on:
+  schedule:
+   - cron: '0 * * * *'
+
+  workflow_dispatch:
+
+jobs:
+  feature_pipeline:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Setup Python 3.9 with Conda
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.9'
+        architerture: 'x64'
+
+    - name: Create Conda Enviornmen
+      run: conda env create -f enviornment.yml
+
+    - name: Activate Conda enviornment
+      run: source activate ml
+      
+
+    - name: execute python workflows from bash script
+      env:
+        HOPSWORKS_API_KEY: ${{ secrets.HOPSWORKS_API_KEY }}
+      run: jupyter nbconvert --to notebook --execute notebooks/12_feature_pipeline.ipynb
+  
