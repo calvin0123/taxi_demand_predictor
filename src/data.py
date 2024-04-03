@@ -11,8 +11,16 @@ from tqdm import tqdm
 import os
 import sys
 
-script_dir = os.getcwd()
-sys.path.append(os.path.abspath(os.path.join(script_dir, '..')))
+# ##################################### IN ORDER TO IMPORT THE PACKAGGE FOR CONDA ENVIORNMENT
+# Get the current directory of the script
+script_dir = os.path.dirname(os.path.abspath(__file__))
+
+# Navigate up one level to the parent directory
+project_dir = os.path.abspath(os.path.join(script_dir, '..'))
+
+# Add the parent directory to sys.path
+sys.path.append(project_dir)
+# #####################################  FOR CONDA ENVIORNMENT 
 
 from src.paths import RAW_DATA_DIR, TRANSFORMED_DATA_DIR
 
@@ -201,8 +209,10 @@ def transform_ts_data_into_features_and_target(
 
         # slice and transpose data into numpy arrays for features and targets
         n_examples = len(indices)
-        x = np.ndarray(shape=(n_examples, input_seq_len), dtype=np.float32)
-        y = np.ndarray(shape=(n_examples), dtype=np.float32)
+        # x = np.ndarray(shape=(n_examples, input_seq_len), dtype=np.float32)
+        # y = np.ndarray(shape=(n_examples), dtype=np.float32)
+        x = np.ndarray(shape=(n_examples, input_seq_len))
+        y = np.ndarray(shape=(n_examples))
         pickup_hours = []
         for i, idx in enumerate(indices):
             x[i, :] = ts_data_one_location.iloc[idx[0]:idx[1]]['rides'].values
